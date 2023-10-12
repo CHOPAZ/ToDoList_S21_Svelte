@@ -1,0 +1,25 @@
+:root {
+		--color-bg: #e6e6e6;
+		--color-btn: #fbcc28;
+		--color-bg-list: #ffffff;
+		--color-bg-active: #ffebeb;
+		--color-btn-hover: #ebc950;
+		--color-bg-done: #ebffed;
+
+		--border-10: 10px;
+		--border-15: 15px;
+		--border-input: 10px 0px 0px 10px;
+		--border-btn: 0px 10px 10px 0px;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		font-family: 'Inter', sans-serif;
+		font-style: normal;
+		font-weight: 400;
+		font-size: 18px;
+	}
