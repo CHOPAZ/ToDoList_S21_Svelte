@@ -2,13 +2,35 @@
 	import Button from './common/Button.svelte';
 	import Card from './common/Card.svelte';
 	import InputCheckBox from './common/InputCheckBox.svelte';
+	import { tasks } from '$lib/stores';
+	import { get } from 'svelte/store';
+	import type { ITaskItem } from '$lib/Interfaces';
+
+	/* Удаление задачи из store writable */
+	function deleteTask(item: ITaskItem) {
+		const tasksValues = get(tasks);
+
+		for (let el in tasksValues) {
+			if (tasksValues[el].id == item.id) {
+				tasksValues.splice(el, 1);
+			}
+		}
+
+		tasks.update(() => {
+			return tasksValues;
+		});
+	}
 </script>
 
 <section class="toDo__list">
-	<Card>
-		<InputCheckBox>asd</InputCheckBox>
-		<Button del />
-	</Card>
+	{#each $tasks as el}
+		<Card statusActive>
+			<InputCheckBox>
+				{el.textTask}
+			</InputCheckBox>
+			<Button del on:click={deleteTask(el)} />
+		</Card>
+	{/each}
 </section>
 
 <style>
