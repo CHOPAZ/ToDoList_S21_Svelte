@@ -7,28 +7,23 @@
 	import type { ITaskItem } from '$lib/Interfaces';
 
 	/* Удаление задачи из store writable */
-	function deleteTask(item: ITaskItem) {
-		const tasksValues = get(tasks);
-
-		for (let el in tasksValues) {
-			if (tasksValues[el].id == item.id) {
-				tasksValues.splice(el, 1);
-			}
-		}
-
-		tasks.update(() => {
-			return tasksValues;
-		});
+	function deleteTask(item: ITaskItem): void {
+		tasks.update(() => get(tasks).filter((el) => el.id !== item.id));
 	}
+
+	/* Изменение статуса задачи */
+	let showModal = false;
+	const toggleModal = () => showModal = !showModal;
 </script>
 
 <section class="toDo__list">
 	{#each $tasks as el}
-		<Card statusActive>
-			<InputCheckBox>
-				{el.textTask}
-			</InputCheckBox>
-			<Button del on:click={deleteTask(el)} />
+		<Card isDone={showModal ? 'done' : 'active'}>
+			<div class="toDo__list-content">
+				<InputCheckBox on:change={toggleModal} />
+				<span>{el.textTask}</span>
+			</div>
+			<Button role='del' on:click={() => deleteTask(el)} />
 		</Card>
 	{/each}
 </section>
@@ -43,5 +38,11 @@
 		gap: 14px;
 		height: 621px;
 		overflow: auto;
+	}
+
+	.toDo__list-content {
+		display: flex;
+		gap: 17px;
+		align-items: center;
 	}
 </style>

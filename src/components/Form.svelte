@@ -27,7 +27,7 @@
 
 <form class="toDo__form">
 	<Input bind:value={valueInput} placeholder="Введите вашу задачу" />
-	<Button add on:click={addTask}>Добавить</Button>
+	<Button role='add' on:click={addTask}>Добавить</Button>
 </form>
 
 <style>

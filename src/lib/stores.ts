@@ -1,5 +1,4 @@
 import { writable } from "svelte/store";
-// import type { ITaskItem } from "./Interfaces";
 
 
 export const tasks = writable([

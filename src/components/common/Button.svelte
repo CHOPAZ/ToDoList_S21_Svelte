@@ -1,18 +1,21 @@
 <script lang="ts">
-	export let add: boolean = false;
-	export let del: boolean = false;
-
-	function getClasses(): string {
-		const tmp: string[] = [];
-		if (add) tmp.push('Add');
-		if (del) tmp.push('Del');
-		return tmp.join(' ');
+	import type { IObj } from "$lib/Interfaces";
+	export let role: 'del' | 'add';
+	
+	const obj: IObj = {
+		del: 'Del',
+		add: 'Add'
+	}
+	
+	function getClass(): string {
+		return `btn${obj[role]}`
 	}
 
-	$: classes = getClasses();
+
+	$: classes = getClass();
 </script>
 
-<button class={`btn${classes}`} on:click>
+<button class={classes} on:click>
 	<slot />
 </button>
 
