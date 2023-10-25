@@ -1,26 +1,32 @@
 import { writable } from "svelte/store";
+// import { get } from 'svelte/store';
+import type { /* ICreateStore */ ITaskItem } from "$lib/Interfaces";
 
 
-export const tasks = writable([
-  {
-    id: Date.now(),
-    textTask: 'Add new project in ToDo',
-    isDone: false,
-  }
-]);
+export const tasks: ITaskItem[] = []
+
+export const toDoWritebleStore = writable(tasks)
 
 
-// function createStore() {
-//   const { subscribe, update } = writable([]);
-  
+//TODO Расширение методов стора
+
+// export const toDoWritebleStore = createStore(tasks)
+
+// function createStore<T>(obj: T): ICreateStore<T> {
+//   /* создали стор */
+//   const writableValue = writable(obj);
+
+//   /* возврат методов для конкретного стора */
 //   return {
-//     subscribe,
-//     addInStorage: () => update((values: any[], obj: any) => {
-//       return [...values, obj]
-//     })
+//     subscribe: writableValue.subscribe,
+//     addToStorage: (item) => {
+//       const items = get(writableValue);
+//       if(Array.isArray(items)) {
+//         items.push(item);
+//       }
+//       writableValue.set(items);
+//     },
+//     update: writableValue.update,
+//     set: writableValue.set
 //   };
 // }
-
-// export const tasks = createStore();
-
-

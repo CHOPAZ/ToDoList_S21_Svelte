@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { tasks } from '$lib/stores';
+	import { toDoWritebleStore } from '$lib/stores';
+	import { get } from 'svelte/store';
 	import Button from './common/Button.svelte';
 	import Input from './common/Input.svelte';
 
@@ -17,9 +18,11 @@
 			isDone: false
 		};
 
-		tasks.update((values) => {
-			return [...values, obj];
-		});
+		const storeTasks = get(toDoWritebleStore);
+		storeTasks.push(obj);
+		toDoWritebleStore.update(() => storeTasks)
+
+		// toDoWritebleStore.addToStorage(obj);
 
 		valueInput = '';
 	}

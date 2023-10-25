@@ -2,30 +2,40 @@
 	import Button from './common/Button.svelte';
 	import Card from './common/Card.svelte';
 	import InputCheckBox from './common/InputCheckBox.svelte';
-	import { tasks } from '$lib/stores';
+	import { toDoWritebleStore } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import type { ITaskItem } from '$lib/Interfaces';
 
 	/* Удаление задачи из store writable */
 	function deleteTask(item: ITaskItem): void {
-		tasks.update(() => get(tasks).filter((el) => el.id !== item.id));
+		toDoWritebleStore.update(() => get(toDoWritebleStore).filter((el) => el.id !== item.id));
 	}
 
 	/* Изменение статуса задачи */
-	let showModal = false;
-	const toggleModal = () => showModal = !showModal;
+	function changeStatusTask(item: ITaskItem): void {
+		if(toDoWritebleStore) {
+			toDoWritebleStore.update(() => get(toDoWritebleStore).map((el) => ({
+					...el,
+					isDone: el.id == item.id ? !el.isDone : el.isDone
+			})))
+		}
+	}
 </script>
 
 <section class="toDo__list">
-	{#each $tasks as el}
-		<Card isDone={showModal ? 'done' : 'active'}>
+	{#if $toDoWritebleStore.length}
+		{#each $toDoWritebleStore as el}
+		<Card isDone={el.isDone ? 'done' : 'active'}>
 			<div class="toDo__list-content">
-				<InputCheckBox on:change={toggleModal} />
+				<InputCheckBox on:change={() => changeStatusTask(el)} />
 				<span>{el.textTask}</span>
 			</div>
 			<Button role='del' on:click={() => deleteTask(el)} />
 		</Card>
-	{/each}
+		{/each}
+		{:else} 
+		<div class="toDo__list-noContent">Нет задач</div>
+	{/if}
 </section>
 
 <style>
@@ -44,5 +54,9 @@
 		display: flex;
 		gap: 17px;
 		align-items: center;
+	}
+
+	.toDo__list-noContent {
+		text-align: center;
 	}
 </style>

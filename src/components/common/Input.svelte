@@ -1,8 +1,10 @@
 <script lang="ts">
 	export let placeholder: string | undefined = undefined;
-	export let value: string | null = null;
+	export let value: string | undefined;
 </script>
 
+
+<!-- TODO переделать на dispatch -->
 <input type="text" class="toDo__input" bind:value {placeholder} />
 
 <style>
