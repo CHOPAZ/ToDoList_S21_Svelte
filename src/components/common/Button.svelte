@@ -1,16 +1,15 @@
 <script lang="ts">
-	import type { IObj } from "$lib/Interfaces";
+	import type { IFormBrn } from '$lib/Interfaces';
 	export let role: 'del' | 'add';
-	
-	const obj: IObj = {
+
+	const formBtn: IFormBrn = {
 		del: 'Del',
 		add: 'Add'
-	}
-	
-	function getClass(): string {
-		return `btn${obj[role]}`
-	}
+	};
 
+	function getClass(): string {
+		return `btn${formBtn[role]}`;
+	}
 
 	$: classes = getClass();
 </script>

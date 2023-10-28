@@ -4,28 +4,28 @@
 	import ListCard from '../components/ListCard.svelte';
 </script>
 
-<main class="toDo">
-	<div class="toDo__wrapper">
+<div class="wrapper">
+	<main class="toDo">
 		<Form />
 		<ListCard />
-	</div>
-</main>
+	</main>
+</div>
 
 <style>
-	main {
+	.wrapper {
 		height: 100vh;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
-
-	.toDo__wrapper {
+	main {
 		background-color: var(--color-bg);
 		border-radius: var(--border-15);
 		padding: 44px 60px;
-		min-width: 636px;
+		width: 636px;
+		height: 80%;
 		display: flex;
 		flex-direction: column;
-		gap: 22px;
+		gap: 25px;
 	}
 </style>

@@ -13,11 +13,13 @@
 
 	/* Изменение статуса задачи */
 	function changeStatusTask(item: ITaskItem): void {
-		if(toDoWritebleStore) {
-			toDoWritebleStore.update(() => get(toDoWritebleStore).map((el) => ({
+		if (toDoWritebleStore) {
+			toDoWritebleStore.update(() =>
+				get(toDoWritebleStore).map((el) => ({
 					...el,
 					isDone: el.id == item.id ? !el.isDone : el.isDone
-			})))
+				}))
+			);
 		}
 	}
 </script>
@@ -25,16 +27,16 @@
 <section class="toDo__list">
 	{#if $toDoWritebleStore.length}
 		{#each $toDoWritebleStore as el}
-		<Card isDone={el.isDone ? 'done' : 'active'}>
-			<div class="toDo__list-content">
-				<InputCheckBox on:change={() => changeStatusTask(el)} />
-				<span>{el.textTask}</span>
-			</div>
-			<Button role='del' on:click={() => deleteTask(el)} />
-		</Card>
+			<Card isDone={el.isDone ? 'done' : 'active'}>
+				<div class="toDo__list-content">
+					<InputCheckBox on:change={() => changeStatusTask(el)} />
+					<span>{el.textTask}</span>
+				</div>
+				<Button role="del" on:click={() => deleteTask(el)} />
+			</Card>
 		{/each}
-		{:else} 
-		<div class="toDo__list-noContent">Нет задач</div>
+	{:else}
+		<div class="toDo__list-absence">Нет задач</div>
 	{/if}
 </section>
 
@@ -46,8 +48,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 14px;
-		height: 621px;
 		overflow: auto;
+		flex-grow: 1;
 	}
 
 	.toDo__list-content {
@@ -56,7 +58,7 @@
 		align-items: center;
 	}
 
-	.toDo__list-noContent {
+	.toDo__list-absence {
 		text-align: center;
 	}
 </style>

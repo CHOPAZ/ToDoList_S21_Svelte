@@ -20,7 +20,7 @@
 
 		const storeTasks = get(toDoWritebleStore);
 		storeTasks.push(obj);
-		toDoWritebleStore.update(() => storeTasks)
+		toDoWritebleStore.update(() => storeTasks);
 
 		// toDoWritebleStore.addToStorage(obj);
 
@@ -30,7 +30,7 @@
 
 <form class="toDo__form">
 	<Input bind:value={valueInput} placeholder="Введите вашу задачу" />
-	<Button role='add' on:click={addTask}>Добавить</Button>
+	<Button role="add" on:click={addTask}>Добавить</Button>
 </form>
 
 <style>

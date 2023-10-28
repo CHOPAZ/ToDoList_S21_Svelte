@@ -8,7 +8,7 @@ export interface ITaskItem {
 
 export type IsDone = 'active' | 'done';
 
-export interface IObj {
+export interface IFormBrn {
   del: string,
   add: string
 }

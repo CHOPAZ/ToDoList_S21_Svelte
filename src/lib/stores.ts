@@ -30,3 +30,17 @@ export const toDoWritebleStore = writable(tasks)
 //     set: writableValue.set
 //   };
 // }
+
+// function createStore1<I, T extends Array<I> | Record<string, I>>(storage: T) {
+//   const writableStore: ReturnType <typeof writable> & {
+//     addStorage: (value: I) => void
+//   } = writable(storage)
+//   writableStore.addStorage = (value: I) => {
+//     const storeObj = writableStore.get()
+//     if(Array.isArray(storeObj)) {
+//       storeObj.push(value);
+//     }
+//     writableStore.set(storeObj)
+//   }
+//   return writableStore
+// }
