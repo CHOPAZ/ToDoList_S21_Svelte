@@ -1,12 +1,21 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 // import { get } from 'svelte/store';
-import type { /* ICreateStore */ ITaskItem } from "$lib/Interfaces";
+import type { /* ICreateStore */ ITaskItem } from '$lib/Interfaces';
 
+export const tasks: ITaskItem[] = [];
 
-export const tasks: ITaskItem[] = []
+export const toDoWritebleStore = writable(tasks);
 
-export const toDoWritebleStore = writable(tasks)
+const TASK_KEY = 'TASK_LIST';
+/* Загрузка задач из LocalStorage */
+export function getTasksListFromStorage() {
+	return JSON.parse(localStorage.getItem(TASK_KEY)) ?? [];
+}
 
+/* Запись в LocalStorage */
+export function setTasksInStorage(elements: ITaskItem) {
+	localStorage.setItem(TASK_KEY, JSON.stringify(elements));
+}
 
 //TODO Расширение методов стора
 

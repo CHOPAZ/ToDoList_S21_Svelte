@@ -2,13 +2,16 @@
 	import Button from './common/Button.svelte';
 	import Card from './common/Card.svelte';
 	import InputCheckBox from './common/InputCheckBox.svelte';
-	import { toDoWritebleStore } from '$lib/stores';
+	import { toDoWritebleStore, getTasksListFromStorage } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import type { ITaskItem } from '$lib/Interfaces';
+	import { onMount } from 'svelte';
 
 	/* Удаление задачи из store writable */
 	function deleteTask(item: ITaskItem): void {
 		toDoWritebleStore.update(() => get(toDoWritebleStore).filter((el) => el.id !== item.id));
+		//TODO почему эим записи эквиваленты
+		// $toDoWritebleStore = $toDoWritebleStore.filter((el) => el.id !== item.id);
 	}
 
 	/* Изменение статуса задачи */
@@ -22,6 +25,11 @@
 			);
 		}
 	}
+
+	onMount(() => {
+		const tmp = getTasksListFromStorage();
+		$toDoWritebleStore = tmp;
+	});
 </script>
 
 <section class="toDo__list">
