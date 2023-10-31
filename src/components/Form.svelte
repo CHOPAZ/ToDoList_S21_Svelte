@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toDoWritebleStore } from '$lib/stores';
+	import { setTasksInStorage, toDoWritebleStore } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import Button from './common/Button.svelte';
 	import Input from './common/Input.svelte';
@@ -24,6 +24,7 @@
 
 		// toDoWritebleStore.addToStorage(obj);
 
+		setTasksInStorage($toDoWritebleStore);
 		valueInput = '';
 	}
 </script>

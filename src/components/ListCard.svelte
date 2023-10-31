@@ -2,7 +2,7 @@
 	import Button from './common/Button.svelte';
 	import Card from './common/Card.svelte';
 	import InputCheckBox from './common/InputCheckBox.svelte';
-	import { toDoWritebleStore, getTasksListFromStorage } from '$lib/stores';
+	import { toDoWritebleStore, getTasksListFromStorage, setTasksInStorage } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import type { ITaskItem } from '$lib/Interfaces';
 	import { onMount } from 'svelte';
@@ -10,6 +10,7 @@
 	/* Удаление задачи из store writable */
 	function deleteTask(item: ITaskItem): void {
 		toDoWritebleStore.update(() => get(toDoWritebleStore).filter((el) => el.id !== item.id));
+		setTasksInStorage($toDoWritebleStore);
 		//TODO почему эим записи эквиваленты
 		// $toDoWritebleStore = $toDoWritebleStore.filter((el) => el.id !== item.id);
 	}
@@ -23,12 +24,19 @@
 					isDone: el.id == item.id ? !el.isDone : el.isDone
 				}))
 			);
+			setTasksInStorage($toDoWritebleStore);
 		}
 	}
 
+	/* Очистака writeble */
+	function clear() {
+		$toDoWritebleStore = $toDoWritebleStore.splice(0, $toDoWritebleStore.length);
+	}
+
 	onMount(() => {
-		const tmp = getTasksListFromStorage();
-		$toDoWritebleStore = tmp;
+		if (localStorage.length != 0) {
+			$toDoWritebleStore = getTasksListFromStorage();
+		}
 	});
 </script>
 
