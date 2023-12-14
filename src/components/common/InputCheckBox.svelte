@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	export let isDone: boolean;
 
 	const dispatch = createEventDispatcher();
 
@@ -8,7 +9,7 @@
 	}
 </script>
 
-<input type="checkbox" class="checkbox" on:change={changeCheck} />
+<input type="checkbox" class="checkbox" on:change={changeCheck} checked={isDone} />
 
 <style>
 	.checkbox {

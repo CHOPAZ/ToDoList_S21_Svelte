@@ -2,50 +2,42 @@
 	import Button from './common/Button.svelte';
 	import Card from './common/Card.svelte';
 	import InputCheckBox from './common/InputCheckBox.svelte';
-	import { toDoWritebleStore, getTasksListFromStorage, setTasksInStorage } from '$lib/stores';
+	import { items, getTasksListFromStorage, setTasksInStorage } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import type { ITaskItem } from '$lib/Interfaces';
 	import { onMount } from 'svelte';
 
 	/* Удаление задачи из store writable */
 	function deleteTask(item: ITaskItem): void {
-		toDoWritebleStore.update(() => get(toDoWritebleStore).filter((el) => el.id !== item.id));
-		setTasksInStorage($toDoWritebleStore);
-		//TODO почему эим записи эквиваленты
-		// $toDoWritebleStore = $toDoWritebleStore.filter((el) => el.id !== item.id);
+		items.update(() => get(items).filter((el) => el.id !== item.id));
+		setTasksInStorage($items);
 	}
 
 	/* Изменение статуса задачи */
 	function changeStatusTask(item: ITaskItem): void {
-		if (toDoWritebleStore) {
-			toDoWritebleStore.update(() =>
-				get(toDoWritebleStore).map((el) => ({
+		if (items) {
+			items.update(() =>
+				get(items).map((el) => ({
 					...el,
 					isDone: el.id == item.id ? !el.isDone : el.isDone
 				}))
 			);
-			setTasksInStorage($toDoWritebleStore);
+			setTasksInStorage($items);
 		}
 	}
 
-	/* Очистака writeble */
-	function clear() {
-		$toDoWritebleStore = $toDoWritebleStore.splice(0, $toDoWritebleStore.length);
-	}
-
+	/* Инициализация */
 	onMount(() => {
-		if (localStorage.length != 0) {
-			$toDoWritebleStore = getTasksListFromStorage();
-		}
+		$items = getTasksListFromStorage();
 	});
 </script>
 
 <section class="toDo__list">
-	{#if $toDoWritebleStore.length}
-		{#each $toDoWritebleStore as el}
+	{#if $items.length}
+		{#each $items as el}
 			<Card isDone={el.isDone ? 'done' : 'active'}>
 				<div class="toDo__list-content">
-					<InputCheckBox on:change={() => changeStatusTask(el)} />
+					<InputCheckBox on:change={() => changeStatusTask(el)} isDone={el.isDone} />
 					<span>{el.textTask}</span>
 				</div>
 				<Button role="del" on:click={() => deleteTask(el)} />

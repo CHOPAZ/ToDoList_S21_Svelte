@@ -1,55 +1,23 @@
 import { writable } from 'svelte/store';
-// import { get } from 'svelte/store';
-import type { /* ICreateStore */ ITaskItem } from '$lib/Interfaces';
+import type { ITaskItem } from '$lib/Interfaces';
 
-export const tasks: ITaskItem[] = [];
+/* Инициализация пустого массива задач */
+export const store: ITaskItem[] = [];
+/* запись в writebleStore Svelte */
+export const items = writable(store);
 
-export const toDoWritebleStore = writable(tasks);
-
+/* ключ localStorage */
 const TASK_KEY = 'TASK_LIST';
-/* Загрузка задач из LocalStorage */
+
+/* Получение задач из LocalStorage */
 export function getTasksListFromStorage() {
-	return JSON.parse(localStorage.getItem(TASK_KEY)) ?? [];
+	let res: ITaskItem[];
+	const items = localStorage.getItem(TASK_KEY);
+	items ? (res = JSON.parse(items)) : (res = []);
+	return res;
 }
 
 /* Запись в LocalStorage */
-export function setTasksInStorage(elements: ITaskItem) {
+export function setTasksInStorage(elements: ITaskItem[]) {
 	localStorage.setItem(TASK_KEY, JSON.stringify(elements));
 }
-
-//TODO Расширение методов стора
-
-// export const toDoWritebleStore = createStore(tasks)
-
-// function createStore<T>(obj: T): ICreateStore<T> {
-//   /* создали стор */
-//   const writableValue = writable(obj);
-
-//   /* возврат методов для конкретного стора */
-//   return {
-//     subscribe: writableValue.subscribe,
-//     addToStorage: (item) => {
-//       const items = get(writableValue);
-//       if(Array.isArray(items)) {
-//         items.push(item);
-//       }
-//       writableValue.set(items);
-//     },
-//     update: writableValue.update,
-//     set: writableValue.set
-//   };
-// }
-
-// function createStore1<I, T extends Array<I> | Record<string, I>>(storage: T) {
-//   const writableStore: ReturnType <typeof writable> & {
-//     addStorage: (value: I) => void
-//   } = writable(storage)
-//   writableStore.addStorage = (value: I) => {
-//     const storeObj = writableStore.get()
-//     if(Array.isArray(storeObj)) {
-//       storeObj.push(value);
-//     }
-//     writableStore.set(storeObj)
-//   }
-//   return writableStore
-// }
