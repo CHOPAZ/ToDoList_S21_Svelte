@@ -1,39 +1,39 @@
 <script lang="ts">
-	import { setTasksInStorage, items } from '$lib/stores';
-	import { get } from 'svelte/store';
 	import Button from './common/Button.svelte';
-	import Input from './common/Input.svelte';
+	import { createEventDispatcher } from 'svelte';
 
-	let valueInput = '';
+	let valueInput: string = '';
 
-	/* Добавленеи задачи в sstore writable*/
+	const dispatch = createEventDispatcher();
+
 	function addTask() {
-		if (!valueInput) {
-			return false;
+		if (valueInput.trim()) {
+			dispatch('addTask', { text: valueInput });
 		}
-
-		const obj = {
-			id: Date.now(),
-			textTask: valueInput.trim(),
-			isDone: false
-		};
-
-		const storeTasks = get(items);
-		storeTasks.push(obj);
-		items.update(() => storeTasks);
-
-		setTasksInStorage($items);
 		valueInput = '';
 	}
 </script>
 
-<form class="toDo__form">
-	<Input bind:value={valueInput} placeholder="Введите вашу задачу" />
-	<Button role="add" on:click={addTask}>Добавить</Button>
+<form class="toDo__form" on:submit|preventDefault={addTask}>
+	<input
+		type="text"
+		class="toDo__input"
+		bind:value={valueInput}
+		placeholder="Введите вашу задачу"
+	/>
+	<Button role="add">Добавить</Button>
 </form>
 
 <style>
 	.toDo__form {
 		display: flex;
+	}
+
+	.toDo__input {
+		border: none;
+		border-radius: var(--border-input);
+		width: 100%;
+		font-size: 18px;
+		padding: 20px 15px;
 	}
 </style>
