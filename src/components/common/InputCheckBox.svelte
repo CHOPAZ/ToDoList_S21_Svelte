@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	export let isDone: boolean;
+	export let isDone: boolean = false;
 
 	const dispatch = createEventDispatcher();
 

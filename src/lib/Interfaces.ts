@@ -1,7 +1,7 @@
 export interface ITaskItem {
-	id: number;
+	id?: number;
 	textTask: string;
-	isDone: boolean;
+	isDone?: boolean;
 }
 
 export type IsDone = 'active' | 'done';
