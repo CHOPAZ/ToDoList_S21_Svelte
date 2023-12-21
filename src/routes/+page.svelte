@@ -1,13 +1,11 @@
 <script lang="ts">
 	import '../assets/global.css';
-	import Form from '../components/Form.svelte';
-	import ListCard from '../components/ListCard.svelte';
+	import ToDoApp from '../components/ToDoApp.svelte';
 </script>
 
 <div class="wrapper">
 	<main class="toDo">
-		<Form />
-		<ListCard />
+		<ToDoApp />
 	</main>
 </div>
 
@@ -19,8 +17,8 @@
 		align-items: center;
 	}
 	main {
-		background-color: var(--color-bg);
 		border-radius: var(--border-15);
+		background-color: var(--color-bg-list);
 		padding: 44px 60px;
 		width: 636px;
 		height: 80%;

@@ -1,12 +1,11 @@
 import axios from 'axios';
 import type { ITaskItem } from './Interfaces';
 
-const baseUrl = 'http://127.0.0.1';
+const baseUrl = 'http://localhost:3000';
 
 /* Получение всех записей */
 async function getToDos() {
-	const req = await axios.get(`${baseUrl}/todo`);
-	return req.data;
+	return (await axios.get(`${baseUrl}/todo`)).data;
 }
 
 /* Создание новой записи */
