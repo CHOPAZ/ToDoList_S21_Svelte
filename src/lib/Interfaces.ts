@@ -1,6 +1,6 @@
 export interface ITaskItem {
 	id?: number;
-	text: string;
+	text?: string;
 	is_done?: boolean;
 }
 

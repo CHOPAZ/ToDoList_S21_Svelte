@@ -4,7 +4,7 @@
 </script>
 
 <div class="wrapper">
-	<main class="toDo">
+	<main>
 		<ToDoApp />
 	</main>
 </div>

@@ -15,12 +15,12 @@ async function createToDo(dto: ITaskItem) {
 
 /* Удаление записи */
 async function deleteToDo(id: number) {
-	return await axios.delete(`${baseUrl}/todo${id}`);
+	return await axios.delete(`${baseUrl}/todo/${id}`);
 }
 
 /* Обновление статуса зачади */
-async function updateToDo(id: number) {
-	return await axios.put(`${baseUrl}/todo`, id);
+async function updateToDo(dto: ITaskItem) {
+	return await axios.put(`${baseUrl}/todo`, dto);
 }
 
 export const apiModules = {
