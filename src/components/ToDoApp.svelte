@@ -4,11 +4,15 @@
 	import Form from './Form.svelte';
 	import ToDoTask from './ToDoTask.svelte';
 
-	let items = loadData();
-
+	let items: ITaskItem[];
+	let isLoading = true;
+	loadData();
 	/* Получение всех записей */
 	async function loadData() {
-		return await apiModules.getToDos();
+		apiModules.getToDos().then((val) => {
+			items = val;
+			isLoading = false;
+		});
 	}
 
 	/* Добавление новой задачи */
@@ -17,35 +21,45 @@
 			text: event.detail.text,
 			is_done: false
 		});
-		items = loadData();
+		// items = loadData();
 	}
 
 	/* Удаление задачи */
 	async function removeTask(event: CustomEvent<number>) {
 		await apiModules.deleteToDo(event.detail);
-		items = loadData();
+		// items = loadData();
 	}
 
 	/* Обновление статуса задачи */
 	async function updateTask(event: CustomEvent<ITaskItem>) {
-		await apiModules.updateToDo({
+		const res = await apiModules.updateToDo({
 			id: event.detail.id,
 			is_done: event.detail.is_done
 		});
-		items = loadData();
+
+		const idx = items.findIndex((i) => (i.id = res.id));
+		items[idx] = res;
+		items = items;
 	}
 </script>
 
 <section class="toDo">
 	<Form on:addTask={createToDo} />
 	<div class="toDo__list">
-		{#await items}
+		{#if isLoading}
+			<p>Loading ...</p>
+		{:else}
+			{#each items as task (task.id)}
+				<ToDoTask {...task} on:removeTask={removeTask} on:changeStatus={updateTask} />
+			{/each}
+		{/if}
+		<!-- {#await items}
 			<p>Loading ...</p>
 		{:then value}
 			{#each value as task (task.id)}
 				<ToDoTask {...task} on:removeTask={removeTask} on:changeStatus={updateTask} />
 			{/each}
-		{/await}
+		{/await} -->
 	</div>
 </section>
 
